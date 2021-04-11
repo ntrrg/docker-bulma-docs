@@ -1,6 +1,6 @@
 FROM jekyll/jekyll as jekyll
 ARG BULMA_VERSION="0.9.2"
-ARG BULMA_URL="http:\\/\\/localhost:4321"
+ENV NEW_URL="http:\\/\\/localhost:4321"
 WORKDIR /tmp
 RUN \
   apk add --no-cache git && \
@@ -8,9 +8,9 @@ RUN \
   chown -R jekyll:jekyll "bulma"
 RUN \
   cd "bulma/docs" && \
-  sed -i "s/https:\/\/bulma.io/$BULMA_URL/" "_config.yml" && \
+  sed -ie "s/https:\/\/bulma.io/$NEW_URL/" "_config.yml" && \
   jekyll build --incremental
 
-FROM ntrrg/nginx:http
-COPY --from=jekyll /tmp/bulma/docs/_site /usr/share/nginx/html
+FROM caddy:2.3.0-alpine
+COPY --from=jekyll /tmp/bulma/docs/_site /usr/share/caddy
 
