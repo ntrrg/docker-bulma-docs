@@ -23,8 +23,11 @@ tags:
 # Usage
 
 ```shell-session
-$ docker run -i -t -p [PORT]:80 ntrrg/bulma-docs
+$ docker run -i -t -p 4321:80 ntrrg/bulma-docs
 ```
+
+The port `4321` is mandatory since Jekyll uses absolute paths for resource
+referencing.
 
 # Acknowledgment
 

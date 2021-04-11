@@ -1,5 +1,6 @@
 FROM jekyll/jekyll as jekyll
 ARG BULMA_VERSION="0.9.2"
+ARG BULMA_URL="http:\\/\\/localhost:4321"
 WORKDIR /tmp
 RUN \
   apk add --no-cache git && \
@@ -7,7 +8,7 @@ RUN \
   chown -R jekyll:jekyll "bulma"
 RUN \
   cd "bulma/docs" && \
-  sed -i "s/https:\/\/bulma.io/\//" "_config.yml" && \
+  sed -i "s/https:\/\/bulma.io/$BULMA_URL/" "_config.yml" && \
   jekyll build --incremental
 
 FROM ntrrg/nginx:http
